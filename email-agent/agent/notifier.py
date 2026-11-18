@@ -7,7 +7,7 @@ class TelegramNotifier:
     """Delivers HTML-formatted priority alerts via the Telegram Bot API."""
 
     def __init__(self, bot_token: str, chat_id: str):
-        self.api_url = f"https://telegram.org{bot_token}/sendMessage"
+        self.api_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
         self.chat_id = chat_id
 
     def notify_important_email(self, email_verdict: Dict[str, Any]) -> None:
