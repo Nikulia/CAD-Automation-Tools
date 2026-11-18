@@ -1,0 +1,38 @@
+name: Email Triage AI Agent
+
+on:
+  workflow_dispatch: # Позволяет запускать скрипт вручную кнопкой в GitHub
+  schedule:
+    # Запуск каждые 15 минут с 05:00 до 14:00 UTC (это 09:00–18:00 по Тбилиси) с Пн по Пт
+    - cron: '*/30 5-15 * * 1-5'
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./email-agent # Указываем папку нашего проекта
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Email Triage Agent
+        env:
+          YANDEX_EMAIL: ${{ secrets.YANDEX_EMAIL }}
+          YANDEX_APP_PASSWORD: ${{ secrets.YANDEX_APP_PASSWORD }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          USER_NAME: ${{ secrets.USER_NAME }}
+          PRIORITY_COLLEAGUES: ${{ secrets.PRIORITY_COLLEAGUES }}
+          TIMEZONE: ${{ secrets.TIMEZONE }}
+        run: python main.py
