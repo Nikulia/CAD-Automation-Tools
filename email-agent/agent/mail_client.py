@@ -1,7 +1,8 @@
 import re
+from email import message_from_bytes
+from email.header import decode_header
 from email.message import Message
 import imaplib
-from email.header import decode_header
 from typing import List, Dict, Optional
 
 
@@ -94,7 +95,7 @@ class EmailClient:
             _, data = self.connection.fetch(mail_id, "(BODY.PEEK[])")
             for part in data:
                 if isinstance(part, tuple):
-                    msg = email.message_from_bytes(part[1])
+                    msg = message_from_bytes(part[1])
                     body_text, attachments = self._extract_content(msg)
                     emails.append({
                         "id": mail_id.decode(),
