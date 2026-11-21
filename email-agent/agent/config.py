@@ -29,7 +29,7 @@ class AgentConfig:
     user_name: str = "Andrey"
     timezone: str = "Asia/Tbilisi"
     work_start_hour: int = 9
-    work_end_hour: int = 18
+    work_end_hour: int = 19
     priority_colleagues: List[str] = field(default_factory=list)
 
     @classmethod

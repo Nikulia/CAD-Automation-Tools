@@ -1,17 +1,18 @@
 name: Email Triage AI Agent
 
 on:
-  workflow_dispatch: # Позволяет запускать скрипт вручную кнопкой в GitHub
-  schedule:
-    # Запуск каждые 15 минут с 05:00 до 14:00 UTC (это 09:00–18:00 по Тбилиси) с Пн по Пт
-    - cron: '*/30 5-15 * * 1-5'
+  # Triggered manually via GitHub UI or programmatically via REST API.
+  # Note: Scheduled execution (every 30 mins, Mon-Fri, 09:00-20:00 Asia/Tbilisi)
+  # is handled by an external cron service (cron-job.org) via workflow_dispatch
+  # to ensure exact execution timing without GitHub Actions queue delays.
+  workflow_dispatch:
 
 jobs:
   run-agent:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./email-agent # Указываем папку нашего проекта
+        working-directory: ./email-agent
 
     steps:
       - name: Checkout repository
